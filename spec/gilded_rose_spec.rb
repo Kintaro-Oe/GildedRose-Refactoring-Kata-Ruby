@@ -24,5 +24,10 @@ describe GildedRose do
       expect(items[0].sell_in).to eq(4)
       expect(items[0].quality).to eq(4)
     end
+    it "degrades quality value twice as fast when sell_in is less than 0" do
+      items = [Item.new("foo", -1, 6)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq(4)
+    end
   end
 end
