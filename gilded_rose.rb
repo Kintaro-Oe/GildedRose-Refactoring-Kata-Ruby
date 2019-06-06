@@ -7,35 +7,21 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
+      decrease_sell_in(item)
+      decrease_quality(item)
+      decrease_quality(item) if item.sell_in < 0
 
-      if aged_brie?(item) || backstage_pass?(item)
+      if aged_brie?(item)
         increase_quality(item)
-      else
-        decrease_quality(item)
+        increase_quality(item) if item.sell_in < 0
       end
 
       if backstage_pass?(item)
-        if item.sell_in < 11
-          increase_quality(item)
-        end
-        if item.sell_in < 6
-          increase_quality(item)
-        end
+        increase_quality(item)
+        increase_quality(item) if item.sell_in < 10
+        increase_quality(item) if item.sell_in < 5
+        item.quality = 0 if item.sell_in < 0
       end
-
-      decrease_sell_in(item)
-
-      if item.sell_in < 0
-        if aged_brie?(item)
-          increase_quality(item)
-        else
-          decrease_quality(item)
-        end
-        if backstage_pass?(item)
-          item.quality = 0
-        end
-      end
-
     end
   end
 
