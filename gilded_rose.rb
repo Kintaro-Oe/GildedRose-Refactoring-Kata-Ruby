@@ -26,9 +26,7 @@ class GildedRose
         end
       end
 
-      if not_sulfuras?(item)
-        item.sell_in -= 1
-      end
+      decrease_sell_in(item)
 
       if item.sell_in < 0
         if not_aged_brie?(item)
@@ -44,6 +42,10 @@ class GildedRose
         end
       end
     end
+  end
+
+  def decrease_sell_in(item)
+    item.sell_in -= 1 if not_sulfuras?(item)
   end
 
   def below_max_quality?(item)
