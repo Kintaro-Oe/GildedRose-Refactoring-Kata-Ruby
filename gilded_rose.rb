@@ -9,9 +9,7 @@ class GildedRose
     @items.each do |item|
 
       if not_aged_brie?(item) && not_backstage_pass?(item)
-        if item.quality > 0
-          item.quality -= 1 if not_sulfuras?(item)
-        end
+        decrease_quality(item)
       else
         if below_max_quality?(item)
           item.quality += 1
@@ -31,9 +29,7 @@ class GildedRose
       if item.sell_in < 0
         if not_aged_brie?(item)
           if not_backstage_pass?(item)
-            if item.quality > 0
-              item.quality -= 1 if not_sulfuras?(item)
-            end
+            decrease_quality(item)
           else
             item.quality = 0
           end
@@ -42,6 +38,10 @@ class GildedRose
         end
       end
     end
+  end
+
+  def decrease_quality(item)
+    item.quality -= 1 if not_sulfuras?(item) && item.quality > 0
   end
 
   def decrease_sell_in(item)
