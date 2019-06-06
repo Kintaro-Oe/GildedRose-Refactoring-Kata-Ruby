@@ -32,17 +32,24 @@ class GildedRose
   end
 
   def decrease_quality(item)
+    return if sulfuras?(item)
     if item.quality > 0
-      item.quality -= 1 unless sulfuras?(item)
+      item.quality -= 1
+      item.quality -= 1 if conjured?(item)
     end
   end
 
   def decrease_sell_in(item)
-    item.sell_in -= 1 unless sulfuras?(item)
+    return if sulfuras?(item)
+    item.sell_in -= 1
   end
 
   def below_max_quality?(item)
     item.quality < MAX_QUALITY
+  end
+
+  def conjured?(item)
+    item.name == "Conjured"
   end
 
   def sulfuras?(item)

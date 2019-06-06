@@ -24,11 +24,7 @@ describe GildedRose do
       expect(items[0].sell_in).to eq(4)
       expect(items[0].quality).to eq(4)
     end
-    it "degrades quality value twice as fast when sell_in is less than 0" do
-      items = [Item.new("foo", -1, 6)]
-      GildedRose.new(items).update_quality()
-      expect(items[0].quality).to eq(4)
-    end
+
     it "does not set quality to less than 0" do
       items = [Item.new("foo", 0, 0)]
       GildedRose.new(items).update_quality()
@@ -65,6 +61,23 @@ describe GildedRose do
         items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 10)]
         GildedRose.new(items).update_quality()
         expect(items[0].quality).to eq(0)
+      end
+    end
+    it "degrades 'Conjured' items twice as fast as normal items" do
+      items = [Item.new("Conjured", 10, 10)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq(8)
+    end
+    context "when sell_in is less than 0" do
+      it "degrades quality value of normal items twice as fast" do
+        items = [Item.new("foo", -1, 6)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].quality).to eq(4)
+      end
+      it "still degrades 'Conjured' items twice as fast as normal items" do
+        items = [Item.new("Conjured", 0, 10)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].quality).to eq(6)
       end
     end
   end
