@@ -11,15 +11,13 @@ class GildedRose
       if not_aged_brie?(item) && not_backstage_pass?(item)
         decrease_quality(item)
       else
-        if below_max_quality?(item)
-          item.quality += 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              item.quality += 1 if below_max_quality?(item)
-            end
-            if item.sell_in < 6
-              item.quality += 1 if below_max_quality?(item)
-            end
+        increase_quality(item)
+        if item.name == "Backstage passes to a TAFKAL80ETC concert"
+          if item.sell_in < 11
+            increase_quality(item)
+          end
+          if item.sell_in < 6
+            increase_quality(item)
           end
         end
       end
@@ -34,10 +32,14 @@ class GildedRose
             item.quality = 0
           end
         else
-          item.quality += 1 if below_max_quality?(item)
+          increase_quality(item)
         end
       end
     end
+  end
+
+  def increase_quality(item)
+    item.quality += 1 if below_max_quality?(item)
   end
 
   def decrease_quality(item)
