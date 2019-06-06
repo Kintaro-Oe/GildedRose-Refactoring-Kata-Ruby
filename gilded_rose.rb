@@ -10,25 +10,24 @@ class GildedRose
 
       if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
         if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality -= 1
-          end
+
+          item.quality -= 1 if not_sulfuras?(item)
         end
       else
         if below_max_quality?(item)
           item.quality += 1
           if item.name == "Backstage passes to a TAFKAL80ETC concert"
             if item.sell_in < 11
-                item.quality += 1 if below_max_quality?(item)
+              item.quality += 1 if below_max_quality?(item)
             end
             if item.sell_in < 6
-                item.quality += 1 if below_max_quality?(item)
+              item.quality += 1 if below_max_quality?(item)
             end
           end
         end
       end
 
-      if item.name != "Sulfuras, Hand of Ragnaros"
+      if not_sulfuras?(item)
         item.sell_in -= 1
       end
 
@@ -36,15 +35,14 @@ class GildedRose
         if item.name != "Aged Brie"
           if item.name != "Backstage passes to a TAFKAL80ETC concert"
             if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality -= 1
-              end
+
+              item.quality -= 1 if not_sulfuras?(item)
             end
           else
             item.quality = 0
           end
         else
-            item.quality += 1 if below_max_quality?(item)
+          item.quality += 1 if below_max_quality?(item)
         end
       end
     end
@@ -52,6 +50,10 @@ class GildedRose
 
   def below_max_quality?(item)
     item.quality < MAX_QUALITY
+  end
+
+  def not_sulfuras?(item)
+    item.name != "Sulfuras, Hand of Ragnaros"
   end
 end
 
