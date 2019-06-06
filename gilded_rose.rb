@@ -1,4 +1,5 @@
 class GildedRose
+  MAX_QUALITY = 50
 
   def initialize(items)
     @items = items
@@ -48,11 +49,13 @@ class GildedRose
       end
     end
   end
+
+  def below_max_quality?(item)
+    item.quality < MAX_QUALITY
+  end
 end
 
-def below_max_quality?(item, max=50)
-  item.quality < max
-end
+
 
 class Item
   attr_accessor :name, :sell_in, :quality
