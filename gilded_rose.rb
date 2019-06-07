@@ -7,6 +7,8 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
+      next if sulfuras?(item)
+
       decrease_sell_in(item)
       decrease_quality(item)
       decrease_quality(item) if item.sell_in < 0
@@ -32,7 +34,6 @@ class GildedRose
   end
 
   def decrease_quality(item)
-    return if sulfuras?(item)
     if item.quality > 0
       item.quality -= 1
       item.quality -= 1 if conjured?(item)
@@ -40,7 +41,6 @@ class GildedRose
   end
 
   def decrease_sell_in(item)
-    return if sulfuras?(item)
     item.sell_in -= 1
   end
 
