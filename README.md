@@ -1,3 +1,5 @@
+_Forked from https://github.com/emilybache/GildedRose-Refactoring-Kata_
+
 An exercise to refactor and extend some legacy code.
 
 ### Approach
